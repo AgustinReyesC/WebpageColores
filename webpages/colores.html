@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Colores para Preescolar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <header class="hero card">
+        <p class="emoji" aria-hidden="true">🎨 🧸 🌈</p>
+        <h1>Jugamos con los colores</h1>
+        <p class="subtitle">Toca un color y aprende su nombre.</p>
+      </header>
+
+      <section class="card board" aria-label="Panel de color">
+        <h2 id="colorName">Rojo</h2>
+        <div id="colorPreview" class="preview" aria-hidden="true"></div>
+        <p class="help">Color seleccionado</p>
+      </section>
+
+      <section class="card colors" aria-label="Colores principales">
+        <h2>Elige un color</h2>
+        <div class="swatches" id="swatches">
+          <button class="swatch" data-name="Rojo" data-hex="#FF4D4D" aria-label="Rojo"></button>
+          <button class="swatch" data-name="Azul" data-hex="#4D7CFE" aria-label="Azul"></button>
+          <button class="swatch" data-name="Verde" data-hex="#30C56A" aria-label="Verde"></button>
+          <button class="swatch" data-name="Amarillo" data-hex="#FFD93D" aria-label="Amarillo"></button>
+          <button class="swatch" data-name="Naranja" data-hex="#FF8C42" aria-label="Naranja"></button>
+          <button class="swatch" data-name="Morado" data-hex="#9B5DE5" aria-label="Morado"></button>
+        </div>
+      </section>
+
+      <section class="card game" aria-label="Juego de color">
+        <h2>Reto rápido</h2>
+        <p class="challenge">Busca el color: <strong id="targetColor">Azul</strong></p>
+        <p id="feedback" class="feedback">¡Toca una bolita de color!</p>
+        <button id="newChallenge" type="button" class="btn">Nuevo reto</button>
+      </section>
+    </main>
+
+    <script src="../script.js"></script>
+  </body>
+</html>

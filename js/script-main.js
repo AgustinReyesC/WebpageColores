@@ -29,3 +29,75 @@ title.innerHTML = title.textContent
     return `<span class="word">${letters}</span>`;
   })
   .join(" ");
+
+
+
+var intro_card = document.querySelectorAll('.card');
+
+//   SECCIONES DE CARTAS
+function createCard(ic, inside, outside) {
+    ic.addEventListener("click", function () {
+        if (this.classList.contains("expanded")) return;
+
+        intro_card.forEach((icc) => {
+            icc.classList.remove("expanded");
+        });
+
+        this.classList.add("expanded");
+
+        // para que scrollee hacia arriba
+        this.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+        this.innerHTML = inside;
+
+        const closeBtn = this.querySelector(".close-btn");
+
+        closeBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            this.classList.remove("expanded");
+
+            this.innerHTML = outside;
+        });
+    });
+}
+
+
+//INTRO
+
+intro_card.forEach((ic) => {
+    createCard(
+        ic,
+        `
+        <p> funciona </p>`,
+        `
+        <p> outside </p>
+        `
+    )
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//QUÉ SON LOS COLORES
+
+
+//COLORES BÁSICOS
+
+
+//ACRTIVIDADES DIVERTIDAS
+
+
+//JUEGOS INTERACTIVOS

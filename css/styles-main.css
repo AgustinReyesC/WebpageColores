@@ -140,26 +140,37 @@ body {
     max-width: none;
     min-height: 180px;
     height: auto;
-    box-shadow: 0 10px 22px rgba(17, 24, 39, 0.16);
-    border-radius: 16px;
-    border: 1px solid #e8eef7;
-    border-left: 8px solid #ff7aa2;
+    box-shadow: 0 14px 30px rgba(26, 32, 44, 0.25);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
     padding: 1rem 0.9rem;
     font-size: clamp(1.2rem, 4.6vw, 1.9rem);
     font-weight: bolder;
     text-align: center;
-    background: #ffffff;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: linear-gradient(165deg, #ffffffec, #fff6dfec);
+    transition: all 0.5s ease;
     position: relative;
     overflow: hidden;
     justify-content: center;
 }
 
-.description { border-left-color: #ffb703; }
-.basic-colors { border-left-color: #06d6a0; }
-.fun-activities { border-left-color: #8ecae6; }
-.interactive-games { border-left-color: #c77dff; }
-.videos-card { border-left-color: #f9844a; }
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(90deg, #ff7aa2, #ffb703, #8ecae6);
+}
+
+.card:nth-child(odd):not(.card-modal-open) {
+    transform: translateY(-2px);
+}
+
+.card:nth-child(even):not(.card-modal-open) {
+    transform: translateY(2px);
+}
 
 .intro {
     grid-column: 1 / 3;
@@ -248,8 +259,8 @@ body {
 }
 
 .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 28px rgba(17, 24, 39, 0.22);
+    transform: scale(1.05) ;
+    
 }
 
 .modal-active {

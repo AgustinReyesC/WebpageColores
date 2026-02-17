@@ -44,74 +44,56 @@ function colorLetters(text) {
 colorLetters(title);
 portada_resp.forEach((pr) => colorLetters(pr));
 
+const cards = document.querySelectorAll(".card");
 
+let activeCard = null;
 
-var intro_card = document.querySelectorAll('.card');
+function openCard(card) {
+  if (activeCard) return;
 
-//   SECCIONES DE CARTAS
-function createCard(ic, inside, outside) {
-    ic.addEventListener("click", function () {
-        if (this.classList.contains("expanded")) return;
+  card.dataset.originalHtml = card.innerHTML;
 
-        intro_card.forEach((icc) => {
-            icc.classList.remove("expanded");
-        });
+  const titleText =
+    card.querySelector(".inline-block")?.textContent.trim() || "Seccion";
 
-        this.classList.add("expanded");
+  card.classList.add("card-modal-open");
+  document.body.classList.add("modal-active");
+  activeCard = card;
 
-        // para que scrollee hacia arriba
-        this.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
+  card.innerHTML = `
+    <div class="card-modal-content">
+      <button class="card-close-btn" type="button" aria-label="Cerrar ventana">Cerrar</button>
+      <h2 class="card-modal-title">${titleText}</h2>
+      <div class="card-modal-body">
+        <p>Aqui puedes poner la informacion de esta seccion.</p>
+      </div>
+    </div>
+  `;
 
-        this.innerHTML = inside;
-
-        const closeBtn = this.querySelector(".close-btn");
-
-        closeBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            this.classList.remove("expanded");
-
-            this.innerHTML = outside;
-        });
-    });
+  card.querySelector(".card-close-btn").addEventListener("click", (event) => {
+    event.stopPropagation();
+    closeCard();
+  });
 }
 
+function closeCard() {
+  if (!activeCard) return;
 
-//INTRO
+  activeCard.innerHTML = activeCard.dataset.originalHtml || "";
+  activeCard.classList.remove("card-modal-open");
+  document.body.classList.remove("modal-active");
+  activeCard = null;
+}
 
-intro_card.forEach((ic) => {
-    createCard(
-        ic,
-        `
-        <p> funciona </p>`,
-        `
-        <p> outside </p>
-        `
-    )
-})
+cards.forEach((card) => {
+  card.addEventListener("click", () => {
+    if (card.classList.contains("card-modal-open")) return;
+    openCard(card);
+  });
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//QUÉ SON LOS COLORES
-
-
-//COLORES BÁSICOS
-
-
-//ACRTIVIDADES DIVERTIDAS
-
-
-//JUEGOS INTERACTIVOS
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeCard();
+  }
+});

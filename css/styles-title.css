@@ -6,16 +6,15 @@
 
 .rainbow span {
     display: inline-block;
-    font-weight: 600;
+    font-weight: 700;
     transition: transform 0.2s ease, filter 0.2s ease;
     text-shadow:
-        4px 2px 0 #222222, 
-        4px 4px 12px rgba(0,0,0,0.15);
+        0 2px 0 rgba(17, 24, 39, 0.7),
+        0 6px 16px rgba(0,0,0,0.22);
 }
 
 .rainbow span:hover {
-    transform: translateY(-10px) scale(1.2);
+    transform: translateY(-8px) scale(1.15);
     filter: brightness(1.1);
 }
-
 

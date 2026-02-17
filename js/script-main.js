@@ -11,24 +11,38 @@ const colors = [
 ];
 
 const title = document.querySelector(".rainbow");
+const portada_resp = document.querySelectorAll(".info-response");
 
-let colorIndex = 0;
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-title.innerHTML = title.textContent
-  .split(" ")
-  .map(word => {
-    const letters = word
-      .split("")
-      .map(letter => {
-        const color = colors[colorIndex % colors.length];
-        colorIndex++;
-        return `<span style="color:${color}">${letter}</span>`;
-      })
-      .join("");
+function colorLetters(text) {
+    let colorIndex = randomInt(0, 8);
 
-    return `<span class="word">${letters}</span>`;
-  })
-  .join(" ");
+    if(!text.classList.contains('rainbow')) {
+        text.classList.add('rainbow');
+    }
+
+    text.innerHTML = text.textContent
+    .split(" ")
+    .map(word => {
+        const letters = word
+        .split("")
+        .map(letter => {
+            const color = colors[colorIndex % colors.length];
+            colorIndex++;
+            return `<span style="color:${color}">${letter}</span>`;
+        })
+        .join("");
+
+        return `<span class="word">${letters}</span>`;
+    })
+    .join(" ");
+}
+
+colorLetters(title);
+portada_resp.forEach((pr) => colorLetters(pr));
 
 
 

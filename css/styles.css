@@ -1,0 +1,142 @@
+:root {
+  --bg-a: #ffe8f1;
+  --bg-b: #d9f4ff;
+  --card: #ffffff;
+  --text: #23304a;
+  --accent: #ff4d4d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Baloo 2", cursive;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 15% 20%, #fff2b2 0%, transparent 35%),
+    radial-gradient(circle at 85% 10%, #d8ffdb 0%, transparent 35%),
+    linear-gradient(180deg, var(--bg-a) 0%, var(--bg-b) 100%);
+}
+
+.layout {
+  width: min(940px, 92%);
+  margin: 1.3rem auto 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 4px solid #ffffff;
+  border-radius: 24px;
+  padding: 1.1rem;
+  box-shadow: 0 12px 24px rgb(35 48 74 / 12%);
+}
+
+.hero {
+  text-align: center;
+}
+
+.emoji {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-top: 0.25rem;
+}
+
+.board {
+  text-align: center;
+}
+
+#colorName {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+}
+
+.preview {
+  width: min(100%, 450px);
+  height: 150px;
+  margin: 0.6rem auto;
+  border-radius: 20px;
+  border: 4px dashed #ffffff;
+  background: var(--accent);
+}
+
+.help {
+  font-size: 1.05rem;
+}
+
+.colors h2,
+.game h2 {
+  text-align: center;
+  margin-bottom: 0.65rem;
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(70px, 1fr));
+  gap: 0.9rem;
+}
+
+.swatch {
+  height: 86px;
+  border: 4px solid #ffffff;
+  border-radius: 999px;
+  box-shadow: 0 6px 0 rgb(35 48 74 / 18%);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.swatch:active {
+  transform: translateY(2px) scale(0.98);
+}
+
+.challenge {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.feedback {
+  text-align: center;
+  min-height: 1.7rem;
+  margin: 0.3rem 0 0.8rem;
+  font-size: 1.15rem;
+}
+
+.btn {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+  background: #23304a;
+  color: #ffffff;
+  font: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .swatches {
+    grid-template-columns: repeat(2, minmax(70px, 1fr));
+  }
+
+  .preview {
+    height: 130px;
+  }
+}

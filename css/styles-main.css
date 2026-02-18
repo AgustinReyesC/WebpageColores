@@ -360,10 +360,15 @@ body {
 
 .intro-img {
     width: min(400px, 70%);
-    height: min(400px, 70%);
+    height: auto;
 }
 
 .description-img {
+    width: min(290px, 68%);
+    height: auto;
+}
+
+.basics-img {
     width: min(290px, 68%);
     height: auto;
 }

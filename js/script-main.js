@@ -68,7 +68,7 @@ function openCard(card) {
     card.innerHTML = `
       <div class="card-modal-content">
         <button class="card-close-btn" type="button" aria-label="Cerrar ventana">Cerrar</button>
-        <h2 class="card-modal-title card-modal-title-${titleText}">${titleText}</h2>
+        <h2 class="card-modal-title">${titleText}</h2>
         <iframe class="card-frame" src="${pagePath}" title="${titleText}"></iframe>
       </div>
     `;

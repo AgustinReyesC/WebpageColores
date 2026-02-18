@@ -1,11 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Games</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juegos interactivos - Wordwall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Fredoka", sans-serif; }
+    body { min-height: 100vh; background: linear-gradient(180deg, #fef3e9, #edf7ff); color: #1f2937; padding: 1rem; }
+    .wrap { max-width: 980px; margin: 0 auto; background: #ffffffde; border: 2px solid #fff; border-radius: 18px; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14); padding: 1rem; display: grid; gap: 0.9rem; }
+    h1 { font-size: clamp(1.2rem, 4.2vw, 1.8rem); }
+    .hint { font-size: 0.95rem; color: #475569; }
+    .picker { display: grid; gap: 0.7rem; }
+    .game-btn {
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 0.9rem;
+      text-align: left;
+      background: #ffffff;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.1);
+    }
+    .game-btn:hover { transform: translateY(-2px); }
+    .game-btn strong { display: block; font-size: 1.05rem; margin-bottom: 0.2rem; }
+    .viewer { display: none; gap: 0.7rem; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
+    .back-btn {
+      border: none;
+      border-radius: 999px;
+      background: #ef476f;
+      color: #fff;
+      font-weight: 700;
+      padding: 0.55rem 0.95rem;
+      cursor: pointer;
+    }
+    iframe { width: 100%; height: min(72vh, 760px); border: 0; border-radius: 12px; background: #fff; }
+  </style>
 </head>
 <body>
-    
+  <main class="wrap">
+    <h1>Juegos interactivos</h1>
+    <p class="hint">Elige uno de los 2 juegos. Cuando quieras, usa <strong>Regresar</strong> para volver al menu.</p>
+
+    <section id="picker" class="picker" aria-label="Selector de juegos">
+      <button class="game-btn" type="button" data-game-id="game1">
+        <strong>Juego 1: Relaciona colores</strong>
+        <span>Wordwall - actividad de relacionar color y nombre.</span>
+      </button>
+      <button class="game-btn" type="button" data-game-id="game2">
+        <strong>Juego 2: Rueda de colores</strong>
+        <span>Wordwall - actividad de repaso rapido.</span>
+      </button>
+    </section>
+
+    <section id="viewer" class="viewer" aria-label="Visualizador de juego">
+      <div class="topbar">
+        <p id="selectedTitle"></p>
+        <button id="backBtn" class="back-btn" type="button">Regresar</button>
+      </div>
+      <iframe id="wordwallFrame" src="" title="Juego Wordwall"></iframe>
+    </section>
+  </main>
+
+  <script>
+    const WORDWALL_GAMES = {
+      game1: {
+        title: "Juego 1: Relaciona colores",
+        embedUrl: "https://wordwall.net/embed/REEMPLAZA_ID_1"
+      },
+      game2: {
+        title: "Juego 2: Rueda de colores",
+        embedUrl: "https://wordwall.net/embed/REEMPLAZA_ID_2"
+      }
+    };
+
+    const picker = document.getElementById("picker");
+    const viewer = document.getElementById("viewer");
+    const selectedTitle = document.getElementById("selectedTitle");
+    const frame = document.getElementById("wordwallFrame");
+    const backBtn = document.getElementById("backBtn");
+
+    function openGame(gameId) {
+      const game = WORDWALL_GAMES[gameId];
+      if (!game) return;
+
+      selectedTitle.textContent = game.title;
+      frame.src = game.embedUrl;
+      picker.style.display = "none";
+      viewer.style.display = "grid";
+    }
+
+    function backToMenu() {
+      frame.src = "";
+      viewer.style.display = "none";
+      picker.style.display = "grid";
+    }
+
+    picker.addEventListener("click", (event) => {
+      const button = event.target.closest(".game-btn");
+      if (!button) return;
+      openGame(button.dataset.gameId);
+    });
+
+    backBtn.addEventListener("click", backToMenu);
+  </script>
 </body>
 </html>

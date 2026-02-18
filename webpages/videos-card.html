@@ -1,11 +1,153 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Videos Card</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprende con videos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Fredoka", sans-serif; }
+    body { min-height: 100vh; background: linear-gradient(180deg, #fff7e6, #edf7ff); color: #1f2937; padding: 1rem; }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      background: #ffffffde;
+      border: 2px solid #fff;
+      border-radius: 20px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+      padding: 1rem;
+      display: grid;
+      gap: 0.9rem;
+    }
+    h1 { font-size: clamp(1.25rem, 4.4vw, 2rem); }
+    .hint { color: #475569; font-size: 0.95rem; }
+    .video-list {
+      display: grid;
+      gap: 0.6rem;
+      grid-template-columns: 1fr;
+    }
+    .video-item {
+      border: 1px solid #dbe5f2;
+      border-left: 10px solid #f59e0b;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 0.8rem;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+      text-align: left;
+    }
+    .video-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(15, 23, 42, 0.14);
+    }
+    .video-item.active {
+      border-left-color: #ef476f;
+      background: #fff7fb;
+    }
+    .video-title {
+      font-size: clamp(1rem, 3.5vw, 1.12rem);
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .viewer {
+      background: #0f172a;
+      border-radius: 14px;
+      padding: 0.45rem;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.2);
+    }
+    iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      border-radius: 10px;
+      display: block;
+      background: #000;
+    }
+    .status { min-height: 1.2rem; font-size: 0.9rem; color: #334155; }
+  </style>
 </head>
 <body>
-    
+  <main class="wrap">
+    <h1>Aprende con videos</h1>
+    <p class="hint">Edita el arreglo <code>VIDEOS</code> en el script para agregar/quitar videos como objetos.</p>
+
+    <section id="videoList" class="video-list" aria-label="Lista de videos"></section>
+    <p id="status" class="status"></p>
+
+    <section class="viewer">
+      <iframe id="youtubeFrame" src="" title="Video de YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </section>
+  </main>
+
+  <script>
+    // Solo agrega o quita objetos aqui:
+    const VIDEOS = [
+      { title: "Cancion de los colores", url: "https://youtu.be/HPj34iX7V58?si=GkNeKU_NCtJ1dW2s" },
+      { title: "Colores para niños", url: "https://www.youtube.com/watch?v=625UT3pCPeU"}
+      // { title: "Aprendemos colores jugando", url: "https://www.youtube.com/watch?v=REEMPLAZA_ID_2" }
+    ];
+
+    const listEl = document.getElementById("videoList");
+    const frameEl = document.getElementById("youtubeFrame");
+    const statusEl = document.getElementById("status");
+
+    function getYouTubeId(url) {
+      try {
+        const parsed = new URL(url);
+        const host = parsed.hostname.replace("www.", "");
+
+        if (host === "youtu.be") return parsed.pathname.slice(1);
+        if (host === "youtube.com" || host === "m.youtube.com") {
+          if (parsed.pathname === "/watch") return parsed.searchParams.get("v");
+          if (parsed.pathname.startsWith("/embed/")) return parsed.pathname.split("/embed/")[1];
+          if (parsed.pathname.startsWith("/shorts/")) return parsed.pathname.split("/shorts/")[1];
+        }
+      } catch (err) {
+        return null;
+      }
+      return null;
+    }
+
+    function loadVideo(item, button) {
+      const videoId = getYouTubeId(item.url);
+      if (!videoId) {
+        statusEl.textContent = `Link invalido en: "${item.title}"`;
+        statusEl.style.color = "#b91c1c";
+        return;
+      }
+
+      frameEl.src = `https://www.youtube.com/embed/${videoId}`;
+      statusEl.textContent = `Reproduciendo: ${item.title}`;
+      statusEl.style.color = "#15803d";
+
+      document.querySelectorAll(".video-item").forEach((el) => el.classList.remove("active"));
+      button.classList.add("active");
+    }
+
+    function renderList() {
+      listEl.innerHTML = "";
+
+      if (!VIDEOS.length) {
+        statusEl.textContent = "No hay videos configurados en el arreglo VIDEOS.";
+        statusEl.style.color = "#b91c1c";
+        return;
+      }
+
+      VIDEOS.forEach((item, index) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "video-item";
+        btn.innerHTML = `<span class="video-title">${item.title}</span>`;
+        btn.addEventListener("click", () => loadVideo(item, btn));
+        listEl.appendChild(btn);
+
+        if (index === 0) loadVideo(item, btn);
+      });
+    }
+
+    renderList();
+  </script>
 </body>
 </html>

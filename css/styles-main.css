@@ -363,6 +363,11 @@ body {
     height: min(400px, 70%);
 }
 
+.description-img {
+    width: min(290px, 68%);
+    height: auto;
+}
+
 
 
 

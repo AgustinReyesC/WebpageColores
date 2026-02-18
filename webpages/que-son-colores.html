@@ -3,86 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Qué son los colores</title>
-
-
-  <!-- fredoka -->
+  <title>Que son los colores</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      color-scheme: light;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: "Fredoka", "Arial", sans-serif;
+      font-family: "Fredoka", sans-serif;
     }
 
     body {
       min-height: 100vh;
-      background: linear-gradient(180deg, #fff8ee 0%, #eef7ff 100%);
+      background: linear-gradient(180deg, #fff8ee 0%, #edf7ff 100%);
       color: #1f2937;
       padding: 1rem;
     }
 
-    .intro-wrap {
-      max-width: 960px;
+    .page {
+      max-width: 980px;
       margin: 0 auto;
-      background: #ffffff;
-      border-radius: 18px;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
+      background: #ffffffde;
+      border-radius: 20px;
+      border: 2px solid #ffffff;
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.14);
       padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      display: grid;
+      gap: 1rem;
     }
 
-    h1 {
-      font-size: clamp(1.3rem, 3.2vw, 2rem);
-      margin-bottom: 0.8rem;
+    .hero {
+      text-align: center;
+      background: linear-gradient(140deg, #ffffff, #f9fcff);
+      border-radius: 16px;
+      padding: 0.9rem;
+      border: 1px solid #e5e7eb;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.3rem, 4.2vw, 2rem);
       color: #7c3aed;
+      margin-bottom: 0.35rem;
     }
 
-    p {
-      font-size: clamp(1rem, 2.3vw, 1.1rem);
+    .hero p {
+      font-size: clamp(0.95rem, 2.8vw, 1.08rem);
+      color: #334155;
+    }
+
+    .content {
+      background: #fffaf0;
+      border-radius: 16px;
+      border: 1px solid #f0e5cf;
+      padding: 0.95rem;
+    }
+
+    .content p {
+      font-size: clamp(1rem, 2.8vw, 1.12rem);
       line-height: 1.55;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.7rem;
       text-align: justify;
-      font-family: "Fredoka";
     }
 
-    .inside-img {
-      width: min(70%, 500px);
-      height: min(70%, 500px);
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
     }
 
-    /* sólo se aplica a introducción */
-    .card-modal-title::before {
-      content: "🎨 "
+    .image-box {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 0.45rem;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
+    }
+
+    .image-box img {
+      width: 100%;
+      height: 180px;
+      border-radius: 10px;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (max-width: 620px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .image-box img {
+        height: 200px;
+      }
     }
   </style>
 </head>
-
-
-
-
 <body>
-  <main class="intro-wrap">
-    <p>Los colores son lo que vemos cuando la luz toca los objetos.
-    Gracias a ellos podemos distinguir las cosas y describir el mundo que nos rodea.
-    Por ejemplo, sabemos que el pasto es verde, el sol es amarillo y el cielo es azul.
-    Aprender los colores nos ayuda a identificar, clasificar y expresar lo que sentimos.
-    </p>
+  <main class="page">
+    <section class="hero">
+      <h1>Que son los colores</h1>
+      <p>Los colores nos ayudan a entender y describir el mundo.</p>
+    </section>
 
-    <img class="inside-img" src="" alt="">
+    <section class="content">
+      <p>
+        Los colores aparecen cuando la luz toca los objetos y nuestros ojos la captan.
+        Gracias a los colores podemos reconocer cosas, compararlas y expresarnos mejor.
+        Por ejemplo: cielo azul, pasto verde y sol amarillo.
+      </p>
+      <p>
+        Aprender colores en preescolar fortalece la observacion, el lenguaje y la creatividad.
+        Tambien ayuda a clasificar objetos y a jugar de forma mas divertida.
+      </p>
+    </section>
 
-
+    <section class="gallery" aria-label="Imagenes de colores">
+      <figure class="image-box">
+        <img src="../assets/card-images/inside/que-colores-inside-1.jpeg" alt="Material escolar de colores">
+      </figure>
+      <figure class="image-box">
+        <img src="../assets/card-images/inside/que-colores-inside-2.jpeg" alt="Objetos coloridos para aprender">
+      </figure>
+    </section>
   </main>
 </body>
 </html>

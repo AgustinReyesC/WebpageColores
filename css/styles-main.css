@@ -113,12 +113,6 @@ body {
 
 
 
-
-
-
-
-
-
 /* PRINCIPAL */
 
 .principal {
@@ -337,11 +331,43 @@ body {
 }
 
 
+/* imagenes outside */
+.img-outside{
+    box-shadow: 0px 0px 15px black;
+    margin: 1rem;
+    border-radius: 15px;
+}
+
+.intro-img {
+    width: min(400px, 70%);
+    height: min(400px, 70%);
+}
 
 
 
 
 /* SECCIONES DE CARTAS */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colores basicos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-a: #fff6df;
+      --bg-b: #eef7ff;
+      --active: #ff4d4d;
+      --ink: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Fredoka", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(180deg, var(--bg-a), var(--bg-b));
+      color: var(--ink);
+      padding: 1rem;
+    }
+
+    .layout {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .block {
+      background: #ffffffdd;
+      border-radius: 18px;
+      border: 2px solid #ffffff;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.15);
+      padding: 1rem;
+    }
+
+    .hero {
+      text-align: center;
+      background: linear-gradient(140deg, #ffffff, #f5fbff);
+    }
+
+    .hero h1 {
+      font-size: clamp(1.4rem, 4.6vw, 2rem);
+      margin-bottom: 0.3rem;
+    }
+
+    .hero p {
+      font-size: clamp(0.95rem, 2.9vw, 1.1rem);
+      color: #374151;
+    }
+
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.7rem;
+    }
+
+    .swatch {
+      border: 3px solid #ffffff;
+      border-radius: 14px;
+      min-height: 74px;
+      color: #111827;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.12);
+    }
+
+    .swatch.active {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
+      outline: 3px solid #1f2937;
+    }
+
+    .swatch:hover {
+      transform: translateY(-2px);
+    }
+
+    .info {
+      border-left: 12px solid var(--active);
+      transition: border-color 0.2s ease;
+    }
+
+    .info-top {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .chip {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      border: 3px solid #ffffff;
+      background: var(--active);
+      box-shadow: inset 0 -7px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .info h2 {
+      font-size: clamp(1.2rem, 4vw, 1.7rem);
+    }
+
+    .fact {
+      margin-top: 0.4rem;
+      font-size: clamp(0.95rem, 2.9vw, 1.1rem);
+      line-height: 1.45;
+      color: #334155;
+    }
+
+    .examples {
+      margin-top: 0.55rem;
+      font-size: 0.95rem;
+      color: #475569;
+    }
+
+    .game {
+      background: linear-gradient(140deg, #fffef6, #f7fbff);
+    }
+
+    .game-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .challenge {
+      font-size: clamp(1rem, 3.4vw, 1.2rem);
+      font-weight: 700;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0.55rem 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #ffffff;
+      background: #ef476f;
+    }
+
+    .feedback {
+      margin-top: 0.6rem;
+      font-size: 0.97rem;
+      color: #334155;
+      min-height: 1.4rem;
+    }
+
+    .score {
+      margin-top: 0.4rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f766e;
+    }
+
+    @media (max-width: 540px) {
+      .swatch-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="layout">
+    <header class="block hero">
+      <h1>Colores basicos interactivos</h1>
+      <p>¡Los colores hacen que el mundo sea más divertido y alegre!</p>
+      <p>Selecciona un color y descubre informacion divertida.</p>
+    </header>
+
+    <section class="block picker" aria-label="Selector de colores">
+      <h2>Elige un color</h2>
+      <div class="swatch-grid" id="swatchGrid"></div>
+    </section>
+
+    <section class="block info" aria-label="Informacion del color">
+      <div class="info-top">
+        <div class="chip" id="colorChip" aria-hidden="true"></div>
+        <h2 id="colorName">Rojo</h2>
+      </div>
+      <p class="fact" id="colorFact"></p>
+      <p class="examples" id="colorExamples"></p>
+    </section>
+
+    <section class="block game" aria-label="Reto de colores">
+      <div class="game-row">
+        <p class="challenge" id="challengeText">Reto: toca el color Azul</p>
+        <button class="btn" id="newChallenge" type="button">Nuevo reto</button>
+      </div>
+      <p class="feedback" id="feedback">Selecciona una tarjeta de color.</p>
+      <p class="score" id="score">Aciertos: 0</p>
+    </section>
+  </main>
+
+  <script>
+    const colorData = [
+      { name: "Rojo", hex: "#ff4d4d", emoji: "🍎", fact: "Es un color fuerte que llama mucho la atencion.", examples: "Ejemplos: manzana, corazon, fresa." },
+      { name: "Azul", hex: "#4d7cfe", emoji: "🌊", fact: "Suele recordar al cielo y al mar.", examples: "Ejemplos: cielo, mar, arandano." },
+      { name: "Amarillo", hex: "#ffd93d", emoji: "🌞", fact: "Es brillante y se asocia con alegria.", examples: "Ejemplos: sol, platano, pollito." },
+      { name: "Verde", hex: "#30c56a", emoji: "🌿", fact: "Representa naturaleza y crecimiento.", examples: "Ejemplos: hojas, pasto, pera." },
+      { name: "Naranja", hex: "#ff8c42", emoji: "🍊", fact: "Se siente energetico y divertido.", examples: "Ejemplos: naranja, zanahoria, tigre." },
+      { name: "Morado", hex: "#9b5de5", emoji: "🍇", fact: "Es un color creativo y magico.", examples: "Ejemplos: uvas, flores, ciruela." }
+    ];
+
+    const swatchGrid = document.getElementById("swatchGrid");
+    const colorChip = document.getElementById("colorChip");
+    const colorName = document.getElementById("colorName");
+    const colorFact = document.getElementById("colorFact");
+    const colorExamples = document.getElementById("colorExamples");
+    const challengeText = document.getElementById("challengeText");
+    const feedback = document.getElementById("feedback");
+    const scoreText = document.getElementById("score");
+    const newChallengeBtn = document.getElementById("newChallenge");
+
+    let challengeColor = null;
+    let score = 0;
+
+    function updateInfo(color) {
+      document.documentElement.style.setProperty("--active", color.hex);
+      colorChip.style.background = color.hex;
+      colorName.textContent = `${color.emoji} ${color.name}`;
+      colorFact.textContent = color.fact;
+      colorExamples.textContent = color.examples;
+    }
+
+    function createSwatches() {
+      colorData.forEach((color, index) => {
+        const btn = document.createElement("button");
+        btn.className = "swatch";
+        btn.type = "button";
+        btn.style.background = color.hex;
+        btn.textContent = `${color.emoji} ${color.name}`;
+        btn.setAttribute("aria-label", color.name);
+
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".swatch").forEach((item) => item.classList.remove("active"));
+          btn.classList.add("active");
+          updateInfo(color);
+          checkChallenge(color);
+        });
+
+        if (index === 0) btn.classList.add("active");
+        swatchGrid.appendChild(btn);
+      });
+    }
+
+    function randomColor() {
+      return colorData[Math.floor(Math.random() * colorData.length)];
+    }
+
+    function startChallenge() {
+      challengeColor = randomColor();
+      challengeText.textContent = `Reto: toca el color ${challengeColor.name}`;
+      feedback.textContent = "Selecciona una tarjeta de color.";
+      feedback.style.color = "#334155";
+    }
+
+    function checkChallenge(selectedColor) {
+      if (!challengeColor) return;
+
+      if (selectedColor.name === challengeColor.name) {
+        score += 1;
+        scoreText.textContent = `Aciertos: ${score}`;
+        feedback.textContent = "Muy bien! Acertaste.";
+        feedback.style.color = "#15803d";
+        startChallenge();
+      } else {
+        feedback.textContent = `Ups. Intenta encontrar ${challengeColor.name}.`;
+        feedback.style.color = "#b91c1c";
+      }
+    }
+
+    newChallengeBtn.addEventListener("click", startChallenge);
+
+    createSwatches();
+    updateInfo(colorData[0]);
+    startChallenge();
+  </script>
+</body>
+</html>

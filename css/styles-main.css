@@ -312,6 +312,11 @@ body {
     padding-right: 4.5rem;
 }
 
+.card-modal-title-Introducción::before {
+    content: "🌈 ";
+    padding: 10px;
+}
+
 .card-modal-body {
     font-size: clamp(1rem, 1.3vw, 1.2rem);
     font-weight: 500;

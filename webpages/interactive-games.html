@@ -62,16 +62,20 @@
 <body>
   <main class="wrap">
     <h1>Juegos interactivos</h1>
-    <p class="hint">Elige uno de los 2 juegos. Cuando quieras, usa <strong>Regresar</strong> para volver al menu.</p>
+    <p class="hint">Elige uno de los 3 juegos. Cuando quieras, usa <strong>Regresar</strong> para volver al menu.</p>
 
     <section id="picker" class="picker" aria-label="Selector de juegos">
       <button class="game-btn" type="button" data-game-id="game1">
         <strong>Juego 1: Memorama de colores</strong>
-        <span>Wordwall - actividad de relacionar color y nombre.</span>
+        <span>Wordwall - actividad de encontrar colores y objetos.</span>
       </button>
       <button class="game-btn" type="button" data-game-id="game2">
         <strong>Juego 2: Relaciona los colores</strong>
         <span>Wordwall - actividad de repaso rapido.</span>
+      </button>
+      <button class="game-btn" type="button" data-game-id="game3">
+        <strong>Juego 3: Reto con temporizador</strong>
+        <span>Adivina el color antes de que se acabe el tiempo.</span>
       </button>
     </section>
 
@@ -89,16 +93,24 @@
   </main>
 
   <script>
-    const WORDWALL_GAMES = {
+    const GAMES = {
       game1: {
+        provider: "wordwall",
         title: "Juego 1: Memorama de colores",
         playUrl: "https://wordwall.net/es/resource/107744805",
         embedUrl: ""
       },
       game2: {
+        provider: "wordwall",
         title: "Juego 2: Relaciona los colores",
         playUrl: "https://wordwall.net/es/resource/107745734",
         embedUrl: ""
+      },
+      game3: {
+        provider: "local",
+        title: "Juego 3: Reto con temporizador",
+        playUrl: "./fun-activities.html",
+        embedUrl: "./fun-activities.html"
       }
     };
 
@@ -126,7 +138,7 @@
     }
 
     async function openGame(gameId) {
-      const game = WORDWALL_GAMES[gameId];
+      const game = GAMES[gameId];
       if (!game) return;
 
       selectedTitle.textContent = game.title;
@@ -137,8 +149,13 @@
       embedNote.textContent = "Cargando vista embebida...";
 
       try {
-        const embedSrc = await resolveEmbedUrl(game);
-        frame.src = embedSrc;
+        let embedSrc = game.embedUrl || "";
+
+        if (game.provider === "wordwall") {
+          embedSrc = await resolveEmbedUrl(game);
+        }
+
+        frame.src = embedSrc || game.playUrl;
         frame.style.display = "block";
         embedNote.textContent = "Vista embebida cargada.";
       } catch (error) {

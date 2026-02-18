@@ -350,6 +350,36 @@ body {
     background: #f9568b;
 }
 
+.site-footer {
+    width: min(1100px, 94vw);
+    margin: 0 auto 2rem;
+    background: #ffffffd9;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
+    padding: 1rem;
+}
+
+.site-footer h3 {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    margin-bottom: 0.6rem;
+    color: #1f2937;
+}
+
+.site-footer ul {
+    list-style-position: inside;
+    display: grid;
+    gap: 0.55rem;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    line-height: 1.45;
+    color: #334155;
+}
+
+.site-footer a {
+    color: #0f766e;
+    word-break: break-word;
+}
+
 
 /* imagenes outside */
 .img-outside{

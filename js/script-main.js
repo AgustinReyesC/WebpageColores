@@ -44,6 +44,9 @@ function colorLetters(text) {
 colorLetters(title);
 portada_resp.forEach((pr) => colorLetters(pr));
 
+
+
+
 const cards = document.querySelectorAll(".card");
 
 let activeCard = null;
@@ -55,20 +58,31 @@ function openCard(card) {
 
   const titleText =
     card.querySelector(".inline-block")?.textContent.trim() || "Seccion";
+  const pagePath = card.dataset.page;
 
   card.classList.add("card-modal-open");
   document.body.classList.add("modal-active");
   activeCard = card;
 
-  card.innerHTML = `
-    <div class="card-modal-content">
-      <button class="card-close-btn" type="button" aria-label="Cerrar ventana">Cerrar</button>
-      <h2 class="card-modal-title">${titleText}</h2>
-      <div class="card-modal-body">
-        <p>Aqui puedes poner la informacion de esta seccion.</p>
+  if (pagePath) {
+    card.innerHTML = `
+      <div class="card-modal-content">
+        <button class="card-close-btn" type="button" aria-label="Cerrar ventana">Cerrar</button>
+        <h2 class="card-modal-title">${titleText}</h2>
+        <iframe class="card-frame" src="${pagePath}" title="${titleText}"></iframe>
       </div>
-    </div>
-  `;
+    `;
+  } else {
+    card.innerHTML = `
+      <div class="card-modal-content">
+        <button class="card-close-btn" type="button" aria-label="Cerrar ventana">Cerrar</button>
+        <h2 class="card-modal-title">${titleText}</h2>
+        <div class="card-modal-body">
+          <p>Aqui puedes poner la informacion de esta seccion.</p>
+        </div>
+      </div>
+    `;
+  }
 
   card.querySelector(".card-close-btn").addEventListener("click", (event) => {
     event.stopPropagation();

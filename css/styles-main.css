@@ -310,6 +310,14 @@ body {
     line-height: 1.45;
 }
 
+.card-frame {
+    width: 100%;
+    height: calc(100% - 3.2rem);
+    border: none;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
 .card-close-btn {
     position: absolute;
     top: 0.9rem;

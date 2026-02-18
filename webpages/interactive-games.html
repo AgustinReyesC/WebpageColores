@@ -28,6 +28,7 @@
     .game-btn strong { display: block; font-size: 1.05rem; margin-bottom: 0.2rem; }
     .viewer { display: none; gap: 0.7rem; }
     .topbar { display: flex; justify-content: space-between; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
+    .top-actions { display: flex; gap: 0.5rem; align-items: center; }
     .back-btn {
       border: none;
       border-radius: 999px;
@@ -36,6 +37,24 @@
       font-weight: 700;
       padding: 0.55rem 0.95rem;
       cursor: pointer;
+    }
+    .play-btn {
+      border: none;
+      border-radius: 999px;
+      background: #0ea5e9;
+      color: #fff;
+      font-weight: 700;
+      padding: 0.55rem 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .embed-note {
+      font-size: 0.9rem;
+      color: #475569;
+    }
+    .embed-note.error {
+      color: #b91c1c;
     }
     iframe { width: 100%; height: min(72vh, 760px); border: 0; border-radius: 12px; background: #fff; }
   </style>
@@ -47,11 +66,11 @@
 
     <section id="picker" class="picker" aria-label="Selector de juegos">
       <button class="game-btn" type="button" data-game-id="game1">
-        <strong>Juego 1: Relaciona colores</strong>
+        <strong>Juego 1: Memorama de colores</strong>
         <span>Wordwall - actividad de relacionar color y nombre.</span>
       </button>
       <button class="game-btn" type="button" data-game-id="game2">
-        <strong>Juego 2: Rueda de colores</strong>
+        <strong>Juego 2: Relaciona los colores</strong>
         <span>Wordwall - actividad de repaso rapido.</span>
       </button>
     </section>
@@ -59,8 +78,12 @@
     <section id="viewer" class="viewer" aria-label="Visualizador de juego">
       <div class="topbar">
         <p id="selectedTitle"></p>
-        <button id="backBtn" class="back-btn" type="button">Regresar</button>
+        <div class="top-actions">
+          <a id="playExternal" class="play-btn" href="#" target="_blank" rel="noopener noreferrer">Abrir en otra pagina</a>
+          <button id="backBtn" class="back-btn" type="button">Regresar</button>
+        </div>
       </div>
+      <p id="embedNote" class="embed-note">Cargando vista embebida...</p>
       <iframe id="wordwallFrame" src="" title="Juego Wordwall"></iframe>
     </section>
   </main>
@@ -68,12 +91,14 @@
   <script>
     const WORDWALL_GAMES = {
       game1: {
-        title: "Juego 1: Relaciona colores",
-        embedUrl: "https://wordwall.net/embed/REEMPLAZA_ID_1"
+        title: "Juego 1: Memorama de colores",
+        playUrl: "https://wordwall.net/es/resource/107744805",
+        embedUrl: ""
       },
       game2: {
-        title: "Juego 2: Rueda de colores",
-        embedUrl: "https://wordwall.net/embed/REEMPLAZA_ID_2"
+        title: "Juego 2: Relaciona los colores",
+        playUrl: "https://wordwall.net/es/resource/REEMPLAZA_ID_2",
+        embedUrl: ""
       }
     };
 
@@ -81,14 +106,46 @@
     const viewer = document.getElementById("viewer");
     const selectedTitle = document.getElementById("selectedTitle");
     const frame = document.getElementById("wordwallFrame");
+    const playExternal = document.getElementById("playExternal");
+    const embedNote = document.getElementById("embedNote");
     const backBtn = document.getElementById("backBtn");
 
-    function openGame(gameId) {
+    async function resolveEmbedUrl(game) {
+      if (game.embedUrl) return game.embedUrl;
+
+      const endpoint = `https://wordwall.net/api/oembed?url=${encodeURIComponent(game.playUrl)}&format=json`;
+      const res = await fetch(endpoint);
+      if (!res.ok) throw new Error("oEmbed no disponible");
+      const data = await res.json();
+
+      const html = data?.html || "";
+      const match = html.match(/src=['"]([^'"]+)['"]/i);
+      if (!match?.[1]) throw new Error("No se encontro iframe embed");
+
+      return match[1];
+    }
+
+    async function openGame(gameId) {
       const game = WORDWALL_GAMES[gameId];
       if (!game) return;
 
       selectedTitle.textContent = game.title;
-      frame.src = game.embedUrl;
+      playExternal.href = game.playUrl;
+      frame.src = "";
+      frame.style.display = "none";
+      embedNote.classList.remove("error");
+      embedNote.textContent = "Cargando vista embebida...";
+
+      try {
+        const embedSrc = await resolveEmbedUrl(game);
+        frame.src = embedSrc;
+        frame.style.display = "block";
+        embedNote.textContent = "Vista embebida cargada.";
+      } catch (error) {
+        embedNote.classList.add("error");
+        embedNote.textContent = "No se pudo incrustar aqui. Usa 'Abrir en otra pagina'.";
+      }
+
       picker.style.display = "none";
       viewer.style.display = "grid";
     }

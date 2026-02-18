@@ -359,8 +359,12 @@ body {
 }
 
 .intro-img {
-    width: min(400px, 70%);
-    height: auto;
+    display: block;
+    width: min(420px, 78%);
+    height: clamp(160px, 30vw, 300px);
+    object-fit: cover;
+    object-position: center;
+
 }
 
 .description-img {

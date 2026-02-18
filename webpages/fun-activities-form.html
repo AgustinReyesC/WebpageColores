@@ -3,86 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Actividades divertidas - Google Forms</title>
+  <title>Actividades divertidas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Fredoka", sans-serif; }
     body { min-height: 100vh; background: linear-gradient(180deg, #fff8e7, #eef7ff); color: #1f2937; padding: 1rem; }
-    .wrap { max-width: 980px; margin: 0 auto; background: #ffffffdd; border: 2px solid #fff; border-radius: 18px; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14); padding: 1rem; display: grid; gap: 0.8rem; }
-    h1 { font-size: clamp(1.2rem, 4.2vw, 1.8rem); }
-    .hint { font-size: 0.95rem; color: #475569; }
-    .panel { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.7rem; }
-    iframe { width: 100%; height: min(72vh, 760px); border: 0; border-radius: 12px; background: #fff; }
-    pre { white-space: pre-wrap; word-break: break-word; font-size: 0.86rem; background: #0f172a; color: #e2e8f0; border-radius: 10px; padding: 0.75rem; max-height: 68vh; overflow: auto; }
-    .error { color: #b91c1c; font-weight: 500; }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      background: #ffffffdd;
+      border: 2px solid #fff;
+      border-radius: 18px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+      padding: 1rem;
+      display: grid;
+      gap: 0.9rem;
+    }
+    h1 { font-size: clamp(1.25rem, 4.4vw, 1.95rem); }
+    .hero {
+      background: linear-gradient(140deg, #ffffff, #f7fbff);
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 0.85rem;
+      text-align: center;
+    }
+    .hero p { color: #475569; font-size: clamp(0.98rem, 2.8vw, 1.08rem); }
+    .form-shell {
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+      border-radius: 14px;
+      padding: 0.45rem;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
+    }
+    iframe {
+      width: 100%;
+      height: min(76vh, 820px);
+      border: 0;
+      border-radius: 10px;
+      background: #fff;
+    }
+    .status {
+      min-height: 1.2rem;
+      font-size: 0.92rem;
+      color: #334155;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <main class="wrap">
-    <h1>Actividades divertidas (Google Forms)</h1>
-    <p class="hint">Esta pagina ya esta preparada para usar Google Forms por <strong>webview</strong> o por <strong>fetch</strong>. Cambia solo la configuracion en el script.</p>
-
-    <section class="panel">
-      <p id="modeLabel"></p>
-      <p id="urlLabel" class="hint"></p>
+    <section class="hero">
+      <h1>Reto de colores</h1>
+      <p>Vamos a jugar con un cuestionario divertido de colores. Elige con calma y diviertete aprendiendo.</p>
     </section>
 
-    <section id="content"></section>
+    <p id="status" class="status"></p>
+
+    <section class="form-shell">
+      <iframe id="formFrame" src="" title="Cuestionario de Google Forms"></iframe>
+    </section>
   </main>
 
   <script>
-    const INTEGRATION = {
-      // "webview" (recomendado para Google Forms publicado) o "fetch"
-      mode: "webview",
-      // Usa el link publicado/embebible de tu formulario
-      webviewUrl: "https://docs.google.com/forms/d/e/REEMPLAZA_TU_FORM_ID/viewform?embedded=true",
-      // URL alternativa si quieres intentar fetch (puede fallar por CORS)
-      fetchUrl: "https://docs.google.com/forms/d/e/REEMPLAZA_TU_FORM_ID/viewform",
-      fetchHeaders: {}
-    };
+    // Solo pega aqui tu link de Google Forms (publicado o embebible):
+    const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdiwYH876uSLJsk8Wyj5WPYAVAdEnQgZIIZcMrN1oBCQ9CAww/viewform?embedded=true";
 
-    const modeLabel = document.getElementById("modeLabel");
-    const urlLabel = document.getElementById("urlLabel");
-    const content = document.getElementById("content");
+    const frame = document.getElementById("formFrame");
+    const status = document.getElementById("status");
 
-    modeLabel.textContent = `Modo activo: ${INTEGRATION.mode}`;
-    urlLabel.textContent = `URL: ${INTEGRATION.mode === "webview" ? INTEGRATION.webviewUrl : INTEGRATION.fetchUrl}`;
-
-    function renderWebview(url) {
-      content.innerHTML = `<iframe src="${url}" title="Google Forms"></iframe>`;
-    }
-
-    async function renderFetch(url) {
-      const loading = document.createElement("p");
-      loading.textContent = "Cargando por fetch...";
-      content.appendChild(loading);
-
-      try {
-        const res = await fetch(url, { headers: INTEGRATION.fetchHeaders });
-        const text = await res.text();
-        content.innerHTML = "";
-
-        const pre = document.createElement("pre");
-        pre.textContent = text.slice(0, 20000);
-        content.appendChild(pre);
-
-        if (!res.ok) {
-          const warning = document.createElement("p");
-          warning.className = "error";
-          warning.textContent = `Respuesta HTTP ${res.status}.`;
-          content.prepend(warning);
-        }
-      } catch (err) {
-        content.innerHTML = `<p class="error">Fetch bloqueado o no permitido (${err.message}). Cambia a modo "webview".</p>`;
-      }
-    }
-
-    if (INTEGRATION.mode === "fetch") {
-      renderFetch(INTEGRATION.fetchUrl);
+    if (FORM_URL.includes("REEMPLAZA_TU_FORM_ID")) {
+      status.textContent = "Pega tu link de Google Forms en FORM_URL para mostrar el cuestionario.";
+      status.style.color = "#b45309";
     } else {
-      renderWebview(INTEGRATION.webviewUrl);
+      frame.src = FORM_URL;
+      status.textContent = "Cuestionario cargado.";
+      status.style.color = "#15803d";
     }
   </script>
 </body>

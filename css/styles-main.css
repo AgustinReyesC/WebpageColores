@@ -194,17 +194,32 @@ body {
 
 @media (max-width: 430px) {
     .principal {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.65rem;
+        padding: 0 0.65rem;
+    }
+
+    .card {
+        min-height: 150px;
+        font-size: clamp(1rem, 4.2vw, 1.2rem);
+        padding: 0.8rem 0.7rem;
     }
 
     .intro,
-    .description,
-    .basic-colors,
     .fun-activities,
     .interactive-games,
     .videos-card {
+        grid-column: 1 / 3;
+    }
+
+    .description {
         grid-column: 1 / 2;
     }
+
+    .basic-colors {
+        grid-column: 2 / 3;
+    }
+
 }
 
 .portada-card {

@@ -378,7 +378,8 @@ body {
 }
 
 .fun-activities-img,
-.interactive-games-img {
+.interactive-games-img,
+.videos-img {
     display: block;
     width: min(320px, 72%);
     height: clamp(150px, 24vw, 210px);
